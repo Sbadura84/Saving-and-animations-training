@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.AI;
@@ -15,6 +16,8 @@ public class Movement : MonoBehaviour
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
     bool isGrounded;
+    public Camera cam;
+
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +38,6 @@ public class Movement : MonoBehaviour
         #region Movement
         Vector3 move = new Vector3(horizontalMove*stats.speed*Time.deltaTime, 0f, verticalMove*stats.speed*Time.deltaTime);
         controller.Move(move);
-        Debug.Log(move);
         if(isGrounded && velocity.y < 0)
         {
             velocity.y = -2;
@@ -44,10 +46,12 @@ public class Movement : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
         #endregion
 
-     
 
-
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        Physics.Raycast(ray, out hit);
+        Vector3 pointToLook = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+        transform.LookAt(pointToLook);
     }
-}
 
-// mouse turn
+}
