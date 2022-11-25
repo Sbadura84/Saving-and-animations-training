@@ -53,5 +53,5 @@ public class Movement : MonoBehaviour
         Vector3 pointToLook = new Vector3(hit.point.x, transform.position.y, hit.point.z);
         transform.LookAt(pointToLook);
     }
-
+    
 }
