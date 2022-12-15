@@ -4,15 +4,56 @@ using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //Animation and VFX
+    public GameObject slashVFX;
+    public Animator animator;
 
-    // Update is called once per frame
+
+    public Transform attackPoint;
+    public float attackRange = 0.5f;
+    public LayerMask enemyLayers;
+
+
+    public int attackDamage=20;
+
+    private void Start()
+    {
+        slashVFX.SetActive(false);
+    }
     void Update()
     {
-        
+        if(Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("Mouse down");
+            Attack();
+        }
+    }
+
+    void Attack()
+    {
+        //Play attack animation
+        animator.SetTrigger("Attack");
+        slashVFX.SetActive(true);
+
+        //Detect hit enemies
+        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position,attackRange,enemyLayers);
+
+
+        //Apply damage
+        foreach(Collider enemy in hitEnemies)
+        {
+            enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
+        }
+
+
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null)
+            return;
+
+        //debug tool
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }
