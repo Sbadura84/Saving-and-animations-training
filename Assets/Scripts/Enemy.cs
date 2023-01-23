@@ -33,6 +33,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //autofollow
         agent.SetDestination(player.transform.position);
     }
 
@@ -62,13 +63,17 @@ public class Enemy : MonoBehaviour
 
     void hpColor()
     {
-        
+        //disabling color change after dying,
+        //note: probably wouldn't ever be needed outside of testing
+        //since enemy would be dead and couldn't change his color anymore
         if (currentHealth <= 0)
         {
             m_Saturation = 0;
         }
         else
-            m_Saturation = (float)(currentHealth * 0.01);
+        //changing saturation based on hp
+        m_Saturation = (float)(currentHealth * 0.01);
+        //values to color translation
         m_Renderer.material.color = Color.HSVToRGB(c_Hue, m_Saturation, c_Value);
         Debug.Log(m_Saturation);
     }

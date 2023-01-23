@@ -46,7 +46,7 @@ public class Movement : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
         #endregion
 
-
+        //updating rotation based on mouse position
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         Physics.Raycast(ray, out hit);
